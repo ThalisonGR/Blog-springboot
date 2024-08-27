@@ -2,7 +2,6 @@ package com.blog.blog.domain.entities;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,11 +15,11 @@ import java.util.UUID;
 @NoArgsConstructor
 @Entity
 @Table(name = "artigos")
-public class Artigos {
+public class Artigo {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @Column(nullable = false , length = 255)
     @NotBlank(message = "Título obrigatório")
