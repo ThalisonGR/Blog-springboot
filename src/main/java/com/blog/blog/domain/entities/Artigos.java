@@ -47,7 +47,7 @@ public class Artigos {
 
     @ElementCollection
     @CollectionTable(name = "artigo_tags", joinColumns = @JoinColumn(name = "artigo_id"))
-    @Column(name = "tag")
+    @Column(name = "tags")
     private Set<String> tags;
 
     @PrePersist
