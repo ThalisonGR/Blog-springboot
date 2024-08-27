@@ -1,5 +1,7 @@
 package com.blog.blog.domain.entities;
 
+import com.blog.blog.dto.ArtigoDTO;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
@@ -38,9 +40,11 @@ public class Artigo {
     @NotBlank(message = "Autor obrigatório")
     private String autor;
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy HH:mm:ss")
     @Column(name = "data_publicacao")
     private LocalDateTime dataPublicacao;
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy HH:mm:ss")
     @Column(name = "data_atualizacao_publicacao")
     private LocalDateTime dataAtualizacaoPublicacao;
 
@@ -48,6 +52,17 @@ public class Artigo {
     @CollectionTable(name = "artigo_tags", joinColumns = @JoinColumn(name = "artigo_id"))
     @Column(name = "tags")
     private Set<String> tags;
+
+    public Artigo(ArtigoDTO artigoDTO) {
+        this.titulo = artigoDTO.titulo();
+        this.subtitulo = artigoDTO.subtitulo();
+        this.imagemDestacada = artigoDTO.imagemDestacada();
+        this.conteudo = artigoDTO.conteudo();
+        this.autor = artigoDTO.autor();
+        this.tags = artigoDTO.tags();
+        this.dataPublicacao = LocalDateTime.now();
+        this.dataAtualizacaoPublicacao = LocalDateTime.now();
+    }
 
     @PrePersist
     private void criacaoArtigo() {this.dataPublicacao = LocalDateTime.now();}
