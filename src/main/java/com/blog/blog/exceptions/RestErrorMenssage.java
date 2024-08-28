@@ -1,8 +1,7 @@
-package com.blog.blog.infra;
+package com.blog.blog.exceptions;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
-import org.springframework.http.HttpStatus;
 
 import java.time.LocalDateTime;
 import java.util.List;

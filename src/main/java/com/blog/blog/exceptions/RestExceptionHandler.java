@@ -1,14 +1,15 @@
-package com.blog.blog.infra;
+package com.blog.blog.exceptions;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
-import java.util.concurrent.RecursiveTask;
 
 @ControllerAdvice
 public class RestExceptionHandler {
@@ -32,8 +33,9 @@ public class RestExceptionHandler {
         return ResponseEntity.status(status).body(new RestErrorMenssage(status.value() , ex.getMessage()));
     }
 
-    private ResponseEntity<RestErrorMenssage> headleException(ResponseStatusException ex){
+    @ExceptionHandler({HttpMessageNotReadableException.class})
+    private ResponseEntity<RestErrorMenssage> headleException(HttpMessageNotReadableException ex){
         var status = HttpStatus.NOT_FOUND;
-        return ResponseEntity.status(status).body(new RestErrorMenssage(status.value() , "Informe ao backend"));
+        return ResponseEntity.status(status).body(new RestErrorMenssage(status.value() , "Erro ao analisar JSON: verifique a estrutura dos dados enviados"));
     }
 }

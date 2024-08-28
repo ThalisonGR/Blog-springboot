@@ -67,6 +67,6 @@ public class Artigo {
     private void criacaoArtigo() {this.dataPublicacao = LocalDateTime.now();}
 
     @PreUpdate
-    private void atualizaDataPublicacao() {this.dataPublicacao = LocalDateTime.now();}
+    private void atualizaDataPublicacao() {this.dataAtualizacaoPublicacao = LocalDateTime.now();}
 
 }
