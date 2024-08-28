@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -26,20 +27,16 @@ public class Artigo {
     private Long id;
 
     @Column(nullable = false , length = 255)
-    @NotBlank(message = "Título obrigatório")
     private String titulo;
 
     @Column(nullable = false , length = 255)
-    @NotBlank(message = "Subtitulo obrigatório")
     private String subtitulo;
 
     private String imagemDestacada;
 
     @Column(columnDefinition = "TEXT")
-    @NotBlank(message = "Subtitulo obrigatório")
     private String conteudo;
 
-    @NotBlank(message = "Autor obrigatório")
     private String autor;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy HH:mm:ss")
