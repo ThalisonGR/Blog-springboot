@@ -3,6 +3,7 @@ package com.blog.blog.domain.entities;
 import com.blog.blog.dto.ArtigoDTO;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -26,23 +27,31 @@ public class Artigo {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Schema(description = "Titulo do artigo", required = true)
     @Column(nullable = false , length = 255)
     private String titulo;
 
+    @Schema(description = "Subtitulo do artigo", required = true)
     @Column(nullable = false , length = 255)
     private String subtitulo;
 
     private String imagemDestacada;
 
+    @Schema(description = "Conteúdo do artigo", required = true)
     @Column(columnDefinition = "TEXT")
     private String conteudo;
 
+    @Schema(description = "Nome do autor", example = "John Doe", required = true)
     private String autor;
 
+    //@Schema(hidden = true): Use essa anotação se você deseja esconder o campo apenas da documentação do Swagger, mas ainda permitir que ele seja serializado normalmente em JSON.
+    @Schema(hidden = true)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy HH:mm:ss")
     @Column(name = "data_publicacao")
     private LocalDateTime dataPublicacao;
 
+    //@Schema(hidden = true): Use essa anotação se você deseja esconder o campo apenas da documentação do Swagger, mas ainda permitir que ele seja serializado normalmente em JSON.
+    @Schema(hidden = true)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy HH:mm:ss")
     @Column(name = "data_atualizacao_publicacao")
     private LocalDateTime dataAtualizacaoPublicacao;
