@@ -10,6 +10,7 @@ import java.util.Set;
 
 public record ArtigoDTO(
 
+                        Long id,
                         @NotNull
                         @NotBlank(message = "Título obrigatório")
                         String titulo,
@@ -32,4 +33,7 @@ public record ArtigoDTO(
 
                         LocalDateTime dataPublicacao,
                         LocalDateTime dataAtualizacao) {
+
+    public ArtigoDTO {
+    }
 }

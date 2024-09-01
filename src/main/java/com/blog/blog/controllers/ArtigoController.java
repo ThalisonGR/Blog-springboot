@@ -22,7 +22,7 @@ public class ArtigoController {
     @Autowired
     private ArtigoService artigoService;
 
-    @Operation(summary = "Criar artigo", description = "Cria um artigo")
+    @Operation(summary = "Criar artigo", description  = "Cria um artigo")
     @ApiResponse(responseCode = "200", description = "Operção realizada com sucesso")
     @ApiResponse(responseCode = "404", description = "Artigo not found")
     @PostMapping("/save")

@@ -30,7 +30,6 @@ public class ArtigoService implements CrudSimples<Artigo , Long , ArtigoDTO> {
         }
         return null;
     }
-
     @Override
     public void delete(Long id) {
         try {

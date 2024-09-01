@@ -25,6 +25,7 @@ public class Artigo {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(unique = true)
     private Long id;
 
     @Schema(description = "Titulo do artigo", required = true)
@@ -61,7 +62,23 @@ public class Artigo {
     @Column(name = "tags")
     private Set<String> tags;
 
+
+    //Criado para utilizar em test
+
+    public Artigo(Long id ,String titulo, String subtitulo, String imagemDestacada, String conteudo, String autor,Set<String> tags, LocalDateTime dataPublicacao, LocalDateTime dataAtualizacaoPublicacao) {
+        this.id = id;
+        this.titulo = titulo;
+        this.subtitulo = subtitulo;
+        this.imagemDestacada = imagemDestacada;
+        this.conteudo = conteudo;
+        this.autor = autor;
+        this.dataPublicacao = dataPublicacao;
+        this.dataAtualizacaoPublicacao = dataAtualizacaoPublicacao;
+        this.tags = tags;
+    }
+
     public Artigo(ArtigoDTO artigoDTO) {
+
         this.titulo = artigoDTO.titulo();
         this.subtitulo = artigoDTO.subtitulo();
         this.imagemDestacada = artigoDTO.imagemDestacada();
