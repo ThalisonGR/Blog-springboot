@@ -45,6 +45,11 @@ public class Artigo {
     @Schema(description = "Nome do autor", example = "John Doe", required = true)
     private String autor;
 
+    @ElementCollection
+    @CollectionTable(name = "artigo_tags", joinColumns = @JoinColumn(name = "artigo_id"))
+    @Column(name = "tags")
+    private Set<String> tags;
+
     //@Schema(hidden = true): Use essa anotação se você deseja esconder o campo apenas da documentação do Swagger, mas ainda permitir que ele seja serializado normalmente em JSON.
     @Schema(hidden = true)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy HH:mm:ss")
@@ -57,28 +62,7 @@ public class Artigo {
     @Column(name = "data_atualizacao_publicacao")
     private LocalDateTime dataAtualizacaoPublicacao;
 
-    @ElementCollection
-    @CollectionTable(name = "artigo_tags", joinColumns = @JoinColumn(name = "artigo_id"))
-    @Column(name = "tags")
-    private Set<String> tags;
-
-
-    //Criado para utilizar em test
-
-    public Artigo(Long id ,String titulo, String subtitulo, String imagemDestacada, String conteudo, String autor,Set<String> tags, LocalDateTime dataPublicacao, LocalDateTime dataAtualizacaoPublicacao) {
-        this.id = id;
-        this.titulo = titulo;
-        this.subtitulo = subtitulo;
-        this.imagemDestacada = imagemDestacada;
-        this.conteudo = conteudo;
-        this.autor = autor;
-        this.dataPublicacao = dataPublicacao;
-        this.dataAtualizacaoPublicacao = dataAtualizacaoPublicacao;
-        this.tags = tags;
-    }
-
     public Artigo(ArtigoDTO artigoDTO) {
-
         this.titulo = artigoDTO.titulo();
         this.subtitulo = artigoDTO.subtitulo();
         this.imagemDestacada = artigoDTO.imagemDestacada();

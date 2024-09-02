@@ -1,5 +1,6 @@
 package domain.entities;
 
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import com.blog.blog.domain.entities.Artigo;
@@ -14,7 +15,9 @@ import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.modelmapper.ModelMapper;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -24,27 +27,22 @@ import java.util.Set;
 import static common.entities.ArtigoConstate.ARTIGO;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
-@SpringBootTest(classes = Artigo.class)
 @ExtendWith(MockitoExtension.class)
 public class ArtigoTest {
     private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
     @InjectMocks
     private ArtigoService artigoService;
-
-    @Captor
-    private ArgumentCaptor<Artigo> artigoArgumentCaptor;
     @Mock
     private ArtigoRepository artigoRepository;
     //operacao_estado_retorno
 
+    @Mock
+    private ModelMapper modelMapper;
     @Test
     void criarArtigo_ValidaNoBanco_RetornaArtigo(){
-        var input = new Artigo(
-                254L,
-                "BMW",
+        ArtigoDTO artigoDTO = new ArtigoDTO(254L,"BMW",
                 "CARRO",
                 "www.com",
                 "carro do ano",
@@ -54,9 +52,9 @@ public class ArtigoTest {
                 LocalDateTime.parse("18/08/2024 14:30:45", formatter)
         );
 
-        doReturn(input).when(artigoRepository.save(artigoArgumentCaptor.capture()));
+        Artigo artigo = modelMapper.map(artigoDTO, Artigo.class);
 
-        var inputDTO = new ArtigoDTO(
+        when(artigoRepository.save(artigo)).thenReturn(new Artigo(
                 254L,
                 "BMW",
                 "CARRO",
@@ -66,10 +64,11 @@ public class ArtigoTest {
                 Set.of("LUXO", "ALEMANHA"),
                 LocalDateTime.parse("31/08/2024 14:30:45", formatter),
                 LocalDateTime.parse("18/08/2024 14:30:45", formatter)
-        );
+        ));  // Fechando o parêntese do when e o do thenReturn
 
-        var result_service = artigoService.save(inputDTO);
-        var artigoCaptured = artigoArgumentCaptor.getValue();
-        assertEquals(input. , inputDTO.ge);
+        Artigo cretedArtigo = artigoRepository.save(artigo);
+        assertNotNull(cretedArtigo);
+        assertEquals(ARTIGO, cretedArtigo);
+        verify(artigoRepository, timeout(1)).save(artigo);
     }
 }

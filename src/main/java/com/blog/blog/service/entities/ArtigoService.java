@@ -17,7 +17,6 @@ public class ArtigoService implements CrudSimples<Artigo , Long , ArtigoDTO> {
 
     @Autowired
     private ArtigoRepository artigoRepository;
-
     @Override
     public Artigo save(ArtigoDTO object) {
         try {
