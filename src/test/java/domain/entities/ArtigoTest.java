@@ -71,4 +71,5 @@ public class ArtigoTest {
         assertEquals(ARTIGO, cretedArtigo);
         verify(artigoRepository, timeout(1)).save(artigo);
     }
+
 }
