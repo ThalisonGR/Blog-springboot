@@ -17,7 +17,7 @@ import java.util.List;
 @RestController
 @RequestMapping("v1/artigo/")
 @Tag(name = "Arigo Controller", description = "Operations related to users")
-public class ArtigoController {
+public class  ArtigoController {
 
     @Autowired
     private ArtigoService artigoService;
