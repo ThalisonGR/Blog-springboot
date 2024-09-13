@@ -63,14 +63,7 @@ public class Artigo {
     private LocalDateTime dataAtualizacaoPublicacao;
 
     public Artigo(ArtigoDTO artigoDTO) {
-        this.titulo = artigoDTO.titulo();
-        this.subtitulo = artigoDTO.subtitulo();
-        this.imagemDestacada = artigoDTO.imagemDestacada();
-        this.conteudo = artigoDTO.conteudo();
-        this.autor = artigoDTO.autor();
-        this.tags = artigoDTO.tags();
-        this.dataPublicacao = LocalDateTime.now();
-        this.dataAtualizacaoPublicacao = LocalDateTime.now();
+
     }
 
     @PrePersist

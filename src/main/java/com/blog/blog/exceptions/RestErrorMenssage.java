@@ -9,12 +9,10 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@JsonInclude(JsonInclude.Include.NON_NULL)
 public class RestErrorMenssage {
 
     private Integer status;
     private String message;
-    private String details;
     private List<String> errorMessages;
     private final LocalDateTime timestamp = LocalDateTime.now();
 

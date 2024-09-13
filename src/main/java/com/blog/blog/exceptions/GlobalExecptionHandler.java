@@ -6,13 +6,17 @@ import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 @ControllerAdvice
-public class RestExceptionHandler {
+public class GlobalExecptionHandler {
+
+    private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     private ResponseEntity<RestErrorMenssage> handleMethodArgumentNotValidException(MethodArgumentNotValidException ex) {
@@ -34,8 +38,28 @@ public class RestExceptionHandler {
     }
 
     @ExceptionHandler({HttpMessageNotReadableException.class})
-    private ResponseEntity<RestErrorMenssage> headleException(HttpMessageNotReadableException ex){
+    public ResponseEntity<ErrorResponseDTO> headleException(HttpMessageNotReadableException ex , WebRequest request){
         var status = HttpStatus.NOT_FOUND;
-        return ResponseEntity.status(status).body(new RestErrorMenssage(status.value() , "Erro ao analisar JSON: verifique a estrutura dos dados enviados"));
+        ErrorResponseDTO errorResponseDTO = new ErrorResponseDTO(
+                request.getDescription(false),
+                HttpStatus.BAD_REQUEST,
+                ex.getMessage() + "  JSON: verifique a estrutura dos dados enviados",
+                LocalDateTime.now()
+        );
+        return new ResponseEntity<>(errorResponseDTO, HttpStatus.BAD_REQUEST);
     }
+
+
+    @ExceptionHandler(ArtigoExecption.class)
+    public ResponseEntity<ErrorResponseDTO> hadleArtigoPublicadoaAnteriomente(ArtigoExecption execption , WebRequest webRequest){
+        ErrorResponseDTO errorResponseDTO = new ErrorResponseDTO(
+                webRequest.getDescription(false),
+                HttpStatus.BAD_REQUEST,
+                execption.getMessage(),
+                LocalDateTime.now()
+        );
+        return new ResponseEntity<>(errorResponseDTO, HttpStatus.BAD_REQUEST);
+    }
+
+
 }
