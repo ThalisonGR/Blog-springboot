@@ -57,8 +57,9 @@ public class  ArtigoController {
     @ApiResponse(responseCode = "200", description = "Operção realizada com sucesso")
     @ApiResponse(responseCode = "404", description = "Artigo not found")
     @GetMapping("/getAll")
-    public ResponseEntity<List<Artigo>> getAll(){
-        return null;
+    public ResponseEntity<List<ArtigoDTO>> getAll(){
+        List<ArtigoDTO> artigoDTOS = artigoService.listar_Artigo();
+        return ResponseEntity.ok().body(artigoDTOS);
     }
 
     @Operation(summary = "Consultar por ID", description = "Returns a single user")

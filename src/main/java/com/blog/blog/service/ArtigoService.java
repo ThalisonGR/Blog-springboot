@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -70,7 +71,13 @@ public class ArtigoService implements IArtigoService {
 
     @Override
     public List<ArtigoDTO> listar_Artigo() {
-       return null;
+        List<Artigo> artigos = artigoRepository.findAll();
+        if (artigos.isEmpty()){
+            throw new ArtigoExecption("Problema ao carregar lista de artigo");
+        }
+       return artigos.stream()
+               .map((artigo) -> mapper.map(artigo, ArtigoDTO.class))
+               .collect(Collectors.toList());
     }
 
     @Override
