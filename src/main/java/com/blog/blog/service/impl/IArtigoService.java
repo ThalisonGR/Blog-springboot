@@ -9,7 +9,7 @@ public interface IArtigoService {
     void criar_Artigo(ArtigoDTO artigoDTO);
 
     ArtigoDTO consultar_por_id(Long id);
-    void atualizar_Artigo(Long id , ArtigoDTO artigoDTO);
+    ArtigoDTO atualizar_Artigo(ArtigoDTO artigoDTO);
     void excluir_Artigo(Long id);
     List<ArtigoDTO> listar_Artigo();
     List<ArtigoDTO> filtrar_autor(String autor);

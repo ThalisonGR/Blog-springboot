@@ -2,6 +2,7 @@ package com.blog.blog.exceptions;
 
 import com.blog.blog.exceptions.artigo.ArtigoExecption;
 import com.blog.blog.exceptions.artigo.ArtigoNotFoundAutorException;
+import com.blog.blog.exceptions.artigo.ArtigonNotFoundUpdate;
 import com.blog.blog.exceptions.dto.ErrorResponseDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -66,6 +67,17 @@ public class GlobalExecptionHandler {
 
     @ExceptionHandler(ArtigoNotFoundAutorException.class)
     public ResponseEntity<ErrorResponseDTO> hadleAutorNaoEncontrado(ArtigoNotFoundAutorException exception , WebRequest webRequest){
+        ErrorResponseDTO errorResponseDTO = new ErrorResponseDTO(
+                webRequest.getDescription(false),
+                HttpStatus.NOT_FOUND,
+                exception.getMessage(),
+                LocalDateTime.now()
+        );
+        return new ResponseEntity<>(errorResponseDTO, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(ArtigonNotFoundUpdate.class)
+    public ResponseEntity<ErrorResponseDTO> hadleUpdateArtigo(ArtigonNotFoundUpdate exception , WebRequest webRequest){
         ErrorResponseDTO errorResponseDTO = new ErrorResponseDTO(
                 webRequest.getDescription(false),
                 HttpStatus.NOT_FOUND,

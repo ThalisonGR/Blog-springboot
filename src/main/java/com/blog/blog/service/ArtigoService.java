@@ -3,6 +3,7 @@ package com.blog.blog.service;
 import com.blog.blog.domain.entities.Artigo;
 import com.blog.blog.dto.ArtigoDTO;
 import com.blog.blog.exceptions.artigo.ArtigoExecption;
+import com.blog.blog.exceptions.artigo.ArtigonNotFoundUpdate;
 import com.blog.blog.repository.ArtigoRepository;
 import com.blog.blog.service.impl.IArtigoService;
 import lombok.AllArgsConstructor;
@@ -53,8 +54,20 @@ public class ArtigoService implements IArtigoService {
     }
 
     @Override
-    public void atualizar_Artigo(Long id, ArtigoDTO artigoDTO) {
+    public ArtigoDTO atualizar_Artigo( ArtigoDTO artigoDTO) {
+        Artigo artigo = artigoRepository.findById(artigoDTO.getId()).orElseThrow(
+                () -> new ArtigonNotFoundUpdate());
+
+        artigo.setTitulo(artigoDTO.getTitulo());
+        artigo.setSubtitulo(artigoDTO.getSubtitulo());
+        artigo.setImagemDestacada(artigoDTO.getImagemDestacada());
+        artigo.setConteudo(artigo.getConteudo());
+        artigo.setAutor(artigoDTO.getAutor());
+
+        artigoRepository.save(artigo);
+        return mapper.map(artigo , ArtigoDTO.class);
     }
+
 
     @Override
     public void excluir_Artigo(Long id) {

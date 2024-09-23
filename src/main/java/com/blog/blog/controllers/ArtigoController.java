@@ -49,8 +49,10 @@ public class  ArtigoController {
     @ApiResponse(responseCode = "200", description = "Operção realizada com sucesso")
     @ApiResponse(responseCode = "404", description = "Artigo not found")
     @PutMapping("/update/{id}")
-    public ResponseEntity<Artigo> update (@PathVariable Long id , @RequestBody ArtigoDTO artigoDTO){
-            return null;
+    public ResponseEntity<ArtigoDTO> update (@PathVariable Long id , @RequestBody ArtigoDTO artigoDTO){
+        artigoDTO.setId(id);
+        ArtigoDTO updateArtigo = artigoService.atualizar_Artigo(artigoDTO);
+        return ResponseEntity.status(HttpStatus.OK).body(updateArtigo);
     }
 
     @Operation(summary = "Cosulta todos", description = "Retorna todos artigos")
