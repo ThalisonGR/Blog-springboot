@@ -2,12 +2,12 @@ package com.blog.blog.service;
 
 import com.blog.blog.domain.entities.Artigo;
 import com.blog.blog.dto.ArtigoDTO;
-import com.blog.blog.exceptions.ArtigoExecption;
-import com.blog.blog.mapper.ArtigoMapper;
+import com.blog.blog.exceptions.artigo.ArtigoExecption;
 import com.blog.blog.repository.ArtigoRepository;
 import com.blog.blog.service.impl.IArtigoService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,39 +20,62 @@ import java.util.Optional;
 public class ArtigoService implements IArtigoService {
 
     @Autowired
-    private ArtigoRepository artRepository;
+    private ModelMapper mapper;
+
+    @Autowired
+    private ArtigoRepository artigoRepository;
 
     @Override
     public void criar_Artigo(ArtigoDTO artigoDTO) {
-            Artigo artigo = ArtigoMapper.mapArtigo(artigoDTO , new Artigo()); //Essa linha todos os dados que tiver dentro do artigo DTO serão tranferidos para o objeto artigo
+            Artigo artigo = mapper.map(artigoDTO, Artigo.class);
              Optional<Artigo> optionalArtigo =  artigoRepository.findByTituloAndAutor(artigoDTO.getTitulo(), artigoDTO.getAutor()); //retorna um boolean
 
              if (optionalArtigo.isPresent()){
-                 throw new ArtigoExecption("Já existe um art1igo com este Titulo do mesmo autor: "
+                 throw new ArtigoExecption("Já existe um artigo com este Titulo do mesmo autor: "
                          + artigoDTO.getTitulo()
                          + " "
                          + artigoDTO.getAutor());
              }
-            artRepository.save(artigo);
+            artigoRepository.save(artigo);
+
+    }
+
+    @Override
+    public ArtigoDTO consultar_por_id(Long id) {
+        Optional<Artigo> optionalArtigo = artigoRepository.findById(id);
+        if (optionalArtigo.isEmpty()){
+            throw new ArtigoExecption("Não existe artigo com este " + id);
+        }
+        Artigo artigo = optionalArtigo.get();
+        return mapper.map(artigo, ArtigoDTO.class);
 
     }
 
     @Override
     public void atualizar_Artigo(Long id, ArtigoDTO artigoDTO) {
-
     }
 
     @Override
     public void excluir_Artigo(Long id) {
-
+        try {
+            ArtigoDTO artigoDTO = consultar_por_id(id);
+            artigoRepository.deleteById(id);
+        }catch (Exception e){
+            throw new ArtigoExecption("Não foi possível excluir o artigo id "
+                    + id
+                    + " / "
+                    + e.getMessage());
+        }
     }
 
     @Override
     public List<ArtigoDTO> listar_Artigo() {
-        return List.of();
+       return null;
     }
 
-    @Autowired
-    private ArtigoRepository artigoRepository;
+    @Override
+    public List <ArtigoDTO> filtrar_autor(String autor) {
+        return null;
 
+    }
 }

@@ -1,5 +1,6 @@
 package com.blog.blog.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
@@ -11,6 +12,8 @@ import java.util.Set;
 
 @Data
 public class ArtigoDTO {
+
+    private Long id;
 
     @NotNull
     @NotBlank(message = "Título obrigatório")
@@ -30,5 +33,11 @@ public class ArtigoDTO {
     @NotBlank(message = "Autor obrigatório")
     private String autor;
 
-    private Set<String> tags;
+//    private Set<String> tags;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy HH:mm:ss")
+    private LocalDateTime dataPublicacao;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy HH:mm:ss")
+    private LocalDateTime dataAtualizacaoPublicacao;
 }

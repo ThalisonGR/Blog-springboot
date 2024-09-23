@@ -12,6 +12,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
@@ -45,19 +46,17 @@ public class Artigo {
     @Schema(description = "Nome do autor", example = "John Doe", required = true)
     private String autor;
 
-    @ElementCollection
-    @CollectionTable(name = "artigo_tags", joinColumns = @JoinColumn(name = "artigo_id"))
-    @Column(name = "tags")
-    private Set<String> tags;
+//    @ElementCollection
+//    @CollectionTable(name = "artigo_tags", joinColumns = @JoinColumn(name = "artigo_id"))
+//    @Column(name = "tags")
+//    private Set<String> tags = new HashSet<>();
 
     //@Schema(hidden = true): Use essa anotação se você deseja esconder o campo apenas da documentação do Swagger, mas ainda permitir que ele seja serializado normalmente em JSON.
-    @Schema(hidden = true)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy HH:mm:ss")
     @Column(name = "data_publicacao")
     private LocalDateTime dataPublicacao;
 
     //@Schema(hidden = true): Use essa anotação se você deseja esconder o campo apenas da documentação do Swagger, mas ainda permitir que ele seja serializado normalmente em JSON.
-    @Schema(hidden = true)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy HH:mm:ss")
     @Column(name = "data_atualizacao_publicacao")
     private LocalDateTime dataAtualizacaoPublicacao;

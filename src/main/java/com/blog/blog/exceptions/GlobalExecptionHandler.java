@@ -1,5 +1,8 @@
 package com.blog.blog.exceptions;
 
+import com.blog.blog.exceptions.artigo.ArtigoExecption;
+import com.blog.blog.exceptions.artigo.ArtigoNotFoundAutorException;
+import com.blog.blog.exceptions.dto.ErrorResponseDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -51,14 +54,25 @@ public class GlobalExecptionHandler {
 
 
     @ExceptionHandler(ArtigoExecption.class)
-    public ResponseEntity<ErrorResponseDTO> hadleArtigoPublicadoaAnteriomente(ArtigoExecption execption , WebRequest webRequest){
+    public ResponseEntity<ErrorResponseDTO> hadleArtigoPublicadoaAnteriomente(ArtigoExecption exeception , WebRequest webRequest){
         ErrorResponseDTO errorResponseDTO = new ErrorResponseDTO(
-                webRequest.getDescription(false),
+                webRequest.getDescription(false), // Se informar true irá apresentar as informaç~eos do cliente
                 HttpStatus.BAD_REQUEST,
-                execption.getMessage(),
+                exeception.getMessage(),
                 LocalDateTime.now()
         );
         return new ResponseEntity<>(errorResponseDTO, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(ArtigoNotFoundAutorException.class)
+    public ResponseEntity<ErrorResponseDTO> hadleAutorNaoEncontrado(ArtigoNotFoundAutorException exception , WebRequest webRequest){
+        ErrorResponseDTO errorResponseDTO = new ErrorResponseDTO(
+                webRequest.getDescription(false),
+                HttpStatus.NOT_FOUND,
+                exception.getMessage(),
+                LocalDateTime.now()
+        );
+        return new ResponseEntity<>(errorResponseDTO, HttpStatus.NOT_FOUND);
     }
 
 

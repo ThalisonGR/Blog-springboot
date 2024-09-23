@@ -2,7 +2,7 @@ package com.blog.blog.controllers;
 
 import com.blog.blog.domain.entities.Artigo;
 import com.blog.blog.dto.ArtigoDTO;
-import com.blog.blog.exceptions.ResponseDTO;
+import com.blog.blog.exceptions.dto.ResponseDTO;
 import com.blog.blog.service.ArtigoService;
 import com.blog.blog.util.ArtigoContantesRetornoStatus;
 import io.swagger.v3.oas.annotations.Operation;
@@ -11,6 +11,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -35,6 +36,14 @@ public class  ArtigoController {
                     .status(HttpStatus.CREATED)
                     .body(new ResponseDTO(ArtigoContantesRetornoStatus.SALVO , ArtigoContantesRetornoStatus.STATUS_201));
     }
+    @Operation(summary = "Consulta por ID", description = "Retorna um artigo que foi consultado")
+    @ApiResponse(responseCode = "200", description = "Operção realizada com sucesso")
+    @ApiResponse(responseCode = "404", description = "Artigo not found")
+    @GetMapping("/cusulta/{autor}")
+    public ResponseEntity<ArtigoDTO> consultar_autor (@RequestParam String autor){
+        return null;
+    }
+
 
     @Operation(summary = "Consulta por ID", description = "Retorna um artigo que foi consultado")
     @ApiResponse(responseCode = "200", description = "Operção realizada com sucesso")
@@ -55,16 +64,20 @@ public class  ArtigoController {
     @Operation(summary = "Consultar por ID", description = "Returns a single user")
     @ApiResponse(responseCode = "200", description = "Operção realizada com sucesso")
     @ApiResponse(responseCode = "404", description = "Artigo not found")
-    @GetMapping("/getById/{id}")
-    public ResponseEntity<Artigo> getByID(@PathVariable Long id){
-        return null;
+    @GetMapping("/consultar_id/{id}")
+    public ResponseEntity<ArtigoDTO> consultar_id(@PathVariable Long id){
+        ArtigoDTO artigoDTO = artigoService.consultar_por_id(id);
+        return  ResponseEntity.ok(artigoDTO);
     }
 
     @Operation(summary = "Deleta artigo", description = "Deleta artigo informado na URL")
     @ApiResponse(responseCode = "200", description = "Operção realizada com sucesso")
     @ApiResponse(responseCode = "404", description = "Artigo not found")
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<HttpStatus> delete (@PathVariable Long id) {
-        return null;
+    public ResponseEntity<ResponseDTO> delete (@PathVariable Long id) {
+        artigoService.excluir_Artigo(id);
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(new ResponseDTO(ArtigoContantesRetornoStatus.EXCLUSAO, ArtigoContantesRetornoStatus.STATUS_200));
     }
 }
