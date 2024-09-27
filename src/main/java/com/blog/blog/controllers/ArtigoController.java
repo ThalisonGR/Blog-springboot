@@ -9,11 +9,13 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,6 +23,7 @@ import java.util.List;
 @RestController
 @RequestMapping(path = "v1/artigo/" , produces = MediaType.APPLICATION_JSON_VALUE)
 @Tag(name = "Arigo Controller", description = "Operations related to users")
+@Validated
 public class  ArtigoController {
 
     @Autowired
@@ -49,7 +52,7 @@ public class  ArtigoController {
     @ApiResponse(responseCode = "200", description = "Operção realizada com sucesso")
     @ApiResponse(responseCode = "404", description = "Artigo not found")
     @PutMapping("/update/{id}")
-    public ResponseEntity<ArtigoDTO> update (@PathVariable Long id , @RequestBody ArtigoDTO artigoDTO){
+    public ResponseEntity<ArtigoDTO> update (@PathVariable Long id ,@Valid @RequestBody ArtigoDTO artigoDTO){
         artigoDTO.setId(id);
         ArtigoDTO updateArtigo = artigoService.atualizar_Artigo(artigoDTO);
         return ResponseEntity.status(HttpStatus.OK).body(updateArtigo);

@@ -11,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.servlet.HandlerExceptionResolver;
 
 import java.util.List;
 import java.util.Optional;
@@ -35,7 +36,7 @@ public class ArtigoService implements IArtigoService {
              if (optionalArtigo.isPresent()){
                  throw new ArtigoExecption("Já existe um artigo com este Titulo do mesmo autor: "
                          + artigoDTO.getTitulo()
-                         + " "
+                         + " e "
                          + artigoDTO.getAutor());
              }
             artigoRepository.save(artigo);
