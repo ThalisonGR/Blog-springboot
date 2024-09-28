@@ -22,16 +22,24 @@ import java.util.List;
 
 @RestController
 @RequestMapping(path = "v1/artigo/" , produces = MediaType.APPLICATION_JSON_VALUE)
-@Tag(name = "Arigo Controller", description = "Operations related to users")
+@Tag(
+        name = "CRUD REST API para Blog",
+        description = "CREATE,UPDATE,READ,DELETE")
 @Validated
 public class  ArtigoController {
 
     @Autowired
     private ArtigoService artigoService;
 
-    @Operation(summary = "Criar artigo", description  = "Cria um artigo")
-    @ApiResponse(responseCode = "200", description = "Operção realizada com sucesso")
-    @ApiResponse(responseCode = "404", description = "Artigo not found")
+    @Operation(
+            summary = "Criar artigo",
+            description  = "Cria um artigo")
+    @ApiResponse(
+            responseCode = "200",
+            description = "Operção realizada com sucesso")
+    @ApiResponse(
+            responseCode = "404",
+            description = "Artigo not found")
     @PostMapping("/save")
     public ResponseEntity<ResponseDTO> created (@Valid @RequestBody ArtigoDTO artigoDTO){
             artigoService.criar_Artigo(artigoDTO);
@@ -39,18 +47,30 @@ public class  ArtigoController {
                     .status(HttpStatus.CREATED)
                     .body(new ResponseDTO(ArtigoContantesRetornoStatus.SALVO , ArtigoContantesRetornoStatus.STATUS_201));
     }
-    @Operation(summary = "Consulta por ID", description = "Retorna um artigo que foi consultado")
-    @ApiResponse(responseCode = "200", description = "Operção realizada com sucesso")
-    @ApiResponse(responseCode = "404", description = "Artigo not found")
+    @Operation(
+            summary = "Consulta por ID",
+            description = "Retorna um artigo que foi consultado")
+    @ApiResponse(
+            responseCode = "200",
+            description = "Operção realizada com sucesso")
+    @ApiResponse(
+            responseCode = "404",
+            description = "Artigo not found")
     @GetMapping("/cusulta/{autor}")
     public ResponseEntity<ArtigoDTO> consultar_autor (@RequestParam String autor){
         return null;
     }
 
 
-    @Operation(summary = "Consulta por ID", description = "Retorna um artigo que foi consultado")
-    @ApiResponse(responseCode = "200", description = "Operção realizada com sucesso")
-    @ApiResponse(responseCode = "404", description = "Artigo not found")
+    @Operation(
+            summary = "Consulta por ID",
+            description = "Retorna um artigo que foi consultado")
+    @ApiResponse(
+            responseCode = "200",
+            description = "Operção realizada com sucesso")
+    @ApiResponse(
+            responseCode = "404",
+            description = "Artigo not found")
     @PutMapping("/update/{id}")
     public ResponseEntity<ArtigoDTO> update (@PathVariable Long id ,@Valid @RequestBody ArtigoDTO artigoDTO){
         artigoDTO.setId(id);
@@ -58,27 +78,45 @@ public class  ArtigoController {
         return ResponseEntity.status(HttpStatus.OK).body(updateArtigo);
     }
 
-    @Operation(summary = "Cosulta todos", description = "Retorna todos artigos")
-    @ApiResponse(responseCode = "200", description = "Operção realizada com sucesso")
-    @ApiResponse(responseCode = "404", description = "Artigo not found")
+    @Operation(
+            summary = "Cosulta todos",
+            description = "Retorna todos artigos")
+    @ApiResponse(
+            responseCode = "200",
+            description = "Operção realizada com sucesso")
+    @ApiResponse(
+            responseCode = "404",
+            description = "Artigo not found")
     @GetMapping("/getAll")
     public ResponseEntity<List<ArtigoDTO>> getAll(){
         List<ArtigoDTO> artigoDTOS = artigoService.listar_Artigo();
         return ResponseEntity.ok().body(artigoDTOS);
     }
 
-    @Operation(summary = "Consultar por ID", description = "Returns a single user")
-    @ApiResponse(responseCode = "200", description = "Operção realizada com sucesso")
-    @ApiResponse(responseCode = "404", description = "Artigo not found")
+    @Operation(
+            summary = "Consultar por ID",
+            description = "Returns a single user")
+    @ApiResponse(
+            responseCode = "200",
+            description = "Operção realizada com sucesso")
+    @ApiResponse(
+            responseCode = "404",
+            description = "Artigo not found")
     @GetMapping("/consultar_id/{id}")
     public ResponseEntity<ArtigoDTO> consultar_id(@PathVariable Long id){
         ArtigoDTO artigoDTO = artigoService.consultar_por_id(id);
         return  ResponseEntity.ok(artigoDTO);
     }
 
-    @Operation(summary = "Deleta artigo", description = "Deleta artigo informado na URL")
-    @ApiResponse(responseCode = "200", description = "Operção realizada com sucesso")
-    @ApiResponse(responseCode = "404", description = "Artigo not found")
+    @Operation(
+            summary = "Deleta artigo",
+            description = "Deleta artigo informado na URL")
+    @ApiResponse(
+            responseCode = "200",
+            description = "Operção realizada com sucesso")
+    @ApiResponse(
+            responseCode = "404",
+            description = "Artigo not found")
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<ResponseDTO> delete (@PathVariable Long id) {
         artigoService.excluir_Artigo(id);
