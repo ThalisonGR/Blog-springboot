@@ -1,6 +1,6 @@
 package com.blog.blog.controllers;
 
-import com.blog.blog.domain.entities.Artigo;
+
 import com.blog.blog.dto.ArtigoDTO;
 import com.blog.blog.exceptions.dto.ResponseDTO;
 import com.blog.blog.service.ArtigoService;
@@ -9,10 +9,12 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
-import lombok.AllArgsConstructor;
+
+import org.springframework.core.env.Environment;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
+
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -28,8 +30,14 @@ import java.util.List;
 @Validated
 public class  ArtigoController {
 
+    @Value("${build.version}")
+    private String buildVersion;
+
     @Autowired
     private ArtigoService artigoService;
+
+    @Autowired
+    private Environment environment;
 
     @Operation(
             summary = "Criar artigo",
@@ -123,5 +131,20 @@ public class  ArtigoController {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(new ResponseDTO(ArtigoContantesRetornoStatus.EXCLUSAO, ArtigoContantesRetornoStatus.STATUS_200));
+    }
+
+
+    @GetMapping("{autor}")
+    public ResponseEntity<List<ArtigoDTO>> list_autor(@PathVariable String autor){
+         List<ArtigoDTO> list_artigo = artigoService.filtrar_autor(autor);
+         return ResponseEntity.status(HttpStatus.OK).body(list_artigo);
+    }
+
+
+    @GetMapping("/build-info")
+    public ResponseEntity<String> build(){
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(environment.getProperty("JAVA_HOME"));
     }
 }

@@ -96,7 +96,14 @@ public class ArtigoService implements IArtigoService {
 
     @Override
     public List <ArtigoDTO> filtrar_autor(String autor) {
-        return null;
 
+        List<Artigo> artigos = artigoRepository.findByAutor(autor);
+        if (artigos.isEmpty()){
+            throw new ArtigoExecption("Não existe artigos com este autor");
+        }
+
+        return artigos.stream()
+                .map((artigo) -> mapper.map(artigo, ArtigoDTO.class))
+                .collect(Collectors.toList());
     }
 }

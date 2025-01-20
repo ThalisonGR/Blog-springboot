@@ -1,11 +1,11 @@
 spring:
   application:
     name: blog
+
   datasource:
-    url: jdbc:mysql://localhost:3306/blogdb
+    url: jdbc:mysql://127.0.0.1:3306/blog?useSSL=false
     username: root
-    password: thalison
-    driver-class-name: com.mysql.cj.jdbc.Driver
+    password:
   jpa:
     open-in-view: false
     show-sql: true
@@ -43,6 +43,11 @@ server:
     whitelabel:
       enabled: false
 
+spring:
+  config:
+    active:
+      on-profile: "qa"
+
 info:
   app:
     name: Blog
@@ -52,11 +57,5 @@ info:
 build:
   version: "1.0"
 
-config:
-  import:
-    - "application_qa.yml"
-    - "application_prod.yml"
-profiles:
-    active:
-      - "qa"
-
+artigo:
+  

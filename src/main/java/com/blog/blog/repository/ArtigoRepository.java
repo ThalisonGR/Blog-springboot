@@ -14,6 +14,6 @@ public interface ArtigoRepository extends JpaRepository<Artigo, Long> {
     Optional<Artigo> findByTituloAndAutor(String titulo, String autor);
 
     @Query("SELECT a from Artigo  a where  a.autor = ?1")
-    Optional<List<Artigo>> findByAutor(String autor);
+    List<Artigo> findByAutor(String autor);
 
 }
